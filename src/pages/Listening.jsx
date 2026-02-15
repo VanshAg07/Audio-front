@@ -4,6 +4,7 @@ import LiveAudioVisualizer from '../components/LiveAudioVisualizer';
 import AudioClipPlayer from '../components/AudioClipPlayer';
 import withAuth from '../hoc/withAuth';
 import { useAudioRecording } from '../hooks/useAudioRecording';
+import { API_BASE_URL } from '../api/config';
 
 function Listening({ token }) {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ function Listening({ token }) {
             const formData = new FormData();
             formData.append('audio', combinedBlob, 'recording.webm');
 
-            const response = await fetch('http://localhost:5001/api/upload-audio', {
+            const response = await fetch(`${API_BASE_URL}/upload-audio`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

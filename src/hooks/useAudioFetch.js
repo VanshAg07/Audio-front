@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../api/config';
 
 const STYLES = [
     { image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=400&fit=crop', colors: ['#06b6d4', '#2563eb'] },
@@ -26,7 +27,7 @@ export const useAudioFetch = (token, username) => {
         setError(null);
 
         try {
-            const response = await fetch('http://localhost:5001/api/my-audio', {
+            const response = await fetch(`${API_BASE_URL}/my-audio`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
