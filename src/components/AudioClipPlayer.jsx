@@ -4,7 +4,6 @@ function AudioClipPlayer({ src, duration, onDelete }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const audioRef = useRef(null);
-    const progressBarRef = useRef(null);
 
     const togglePlay = () => {
         if (isPlaying) {
