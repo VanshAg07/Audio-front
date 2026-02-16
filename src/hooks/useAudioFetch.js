@@ -57,9 +57,31 @@ export const useAudioFetch = (token, username) => {
         }
     }, [token, username, navigate]);
 
+    const deleteAudio = useCallback(async (id) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/my-audio/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/login');
+                return;
+            }
+
+            if (!response.ok) throw new Error('Failed to delete audio');
+
+            setAudioList(prev => prev.filter(item => item.id !== id));
+        } catch (err) {
+            console.error('Error deleting audio:', err);
+            setError(err.message);
+        }
+    }, [token, navigate]);
+
     useEffect(() => {
         fetchMyAudio();
     }, [fetchMyAudio]);
 
-    return { audioList, isLoading, error, refetch: fetchMyAudio };
+    return { audioList, isLoading, error, refetch: fetchMyAudio, deleteAudio };
 };

@@ -19,9 +19,6 @@ function AudioClipPlayer({ src, duration, onDelete }) {
         setCurrentTime(audioRef.current.currentTime);
     };
 
-    const handleLoadedMetadata = () => {
-        // Use duration from props if available, otherwise from audio element
-    };
 
     const handleSeek = (e) => {
         const time = Number(e.target.value);
@@ -48,7 +45,6 @@ function AudioClipPlayer({ src, duration, onDelete }) {
                 ref={audioRef}
                 src={src}
                 onTimeUpdate={handleTimeUpdate}
-                onLoadedMetadata={handleLoadedMetadata}
             />
 
             <div className="flex items-center gap-4">

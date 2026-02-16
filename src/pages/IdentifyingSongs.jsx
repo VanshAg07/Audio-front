@@ -9,7 +9,7 @@ import MusicCard from '../components/MusicCard';
 function IdentifyingSongs({ token, username }) {
     const navigate = useNavigate();
     const [expanded, setExpanded] = useState(false);
-    const { audioList, isLoading } = useAudioFetch(token, username);
+    const { audioList, isLoading, deleteAudio } = useAudioFetch(token, username);
     const { logout } = useAuth();
 
     // Refs for direct DOM manipulation (no re-renders during gesture)
@@ -329,7 +329,7 @@ function IdentifyingSongs({ token, username }) {
                                         opacity: index === 0 ? 1 : (index < MAX_STACK_VISIBLE ? 1 - index * 0.2 : 0)
                                     }}
                                 >
-                                    <MusicCard card={card} />
+                                    <MusicCard card={card} onDelete={deleteAudio} />
                                 </div>
                             ))}
                             {audioList.length === 0 && <p className="text-center text-white/20 py-10">No recordings yet</p>}
