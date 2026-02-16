@@ -40,13 +40,23 @@ export const useAudioFetch = (token, username) => {
             if (!response.ok) throw new Error('Failed to fetch audio');
 
             const data = await response.json();
-            const mappedData = data.map((item, index) => ({
-                id: item._id,
-                title: item.originalname || `Recording ${data.length - index}`,
-                artist: username,
-                url: item.url,
-                ...STYLES[index % STYLES.length]
-            }));
+            const mappedData = data.map((item, index) => {
+                const sequentialTitle = `Audio ${data.length - index}`;
+
+                // Deterministic style based on ID so images don't shift when new items are added
+                const idHash = item._id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                const styleIndex = idHash % STYLES.length;
+
+                return {
+                    id: item._id,
+                    title: (item.originalname && item.originalname !== 'recording.webm')
+                        ? item.originalname
+                        : sequentialTitle,
+                    artist: username,
+                    url: item.url,
+                    ...STYLES[styleIndex]
+                };
+            });
 
             setAudioList(mappedData);
         } catch (err) {
